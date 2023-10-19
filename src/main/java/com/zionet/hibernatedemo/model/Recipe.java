@@ -14,7 +14,7 @@ public class Recipe {
     private String description;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingredient> ingredients;
 
     @Override
