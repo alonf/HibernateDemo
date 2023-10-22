@@ -19,13 +19,12 @@ docker exec -it my_postgres_db psql -U postgres -c "CREATE DATABASE recipe_db;"
 
 :: Create tables
 docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "CREATE TABLE recipe (id BIGSERIAL PRIMARY KEY, name VARCHAR(255), description TEXT);"
-docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "CREATE TABLE ingredient (id BIGSERIAL PRIMARY KEY, name VARCHAR(255), amount VARCHAR(255), recipe_id BIGINT);"
+docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "CREATE TABLE ingredient (id BIGSERIAL PRIMARY KEY, name VARCHAR(255), amount VARCHAR(255));"
+docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "CREATE TABLE recipe_ingredient (recipe_id BIGINT NOT NULL, ingredient_id BIGINT NOT NULL, PRIMARY KEY (recipe_id, ingredient_id));"
 
-:: Set recipe_id to NOT NULL
-docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "ALTER TABLE ingredient ALTER COLUMN recipe_id SET NOT NULL;"
-
-:: Add foreign key constraint
-docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "ALTER TABLE ingredient ADD CONSTRAINT fk_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(id);"
+:: Add foreign key constraints
+docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "ALTER TABLE recipe_ingredient ADD CONSTRAINT fk_recipe FOREIGN KEY (recipe_id) REFERENCES recipe(id);"
+docker exec -it my_postgres_db psql -U postgres -d recipe_db -c "ALTER TABLE recipe_ingredient ADD CONSTRAINT fk_ingredient FOREIGN KEY (ingredient_id) REFERENCES ingredient(id);"
 
 echo Database and tables created successfully.
 

@@ -24,18 +24,13 @@ public class RecipeController {
         return recipeService.getRecipeById(id);
     }
 
+
     @PostMapping
     public void saveOrUpdateRecipe(@RequestBody Recipe recipe) {
         System.out.println("Received recipe: " + recipe);
 
-        if (recipe.getIngredients() != null) {
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                ingredient.setRecipe(recipe);
-            }
-        }
         recipeService.saveOrUpdateRecipe(recipe);
     }
-
     @DeleteMapping("/{id}")
     public void deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);

@@ -1,9 +1,13 @@
 package com.zionet.hibernatedemo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "ingredient")
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,18 +15,13 @@ public class Ingredient {
     private String name;
     private String amount;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
-
     @Override
     public String toString() {
         return "Ingredient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", amount='" + amount + '\'' +
-                ", recipe_id=" + (recipe != null ? recipe.getId() : "null") +
+               // ", recipe_id=" + (recipe != null ? recipe.getId() : "null") +
                 '}';
     }
     // Getters and setters
@@ -50,11 +49,4 @@ public class Ingredient {
         this.amount = amount;
     }
 
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
 }
